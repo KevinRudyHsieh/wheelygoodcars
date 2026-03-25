@@ -15,7 +15,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link text-light" href="">Alle auto's</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('cars.index') }}">Alle auto's</a></li>
                             @auth
                                 <li class="nav-item"><a class="nav-link text-light" href="">Mijn aanbod</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="">Aanbod plaatsen</a></li>
