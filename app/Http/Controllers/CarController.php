@@ -14,6 +14,18 @@ class CarController extends Controller
         return view('mycars', compact('cars'));
     }
 
+    /**
+     * Toon een overzicht van alle auto's (B1/B2)
+     */
+    public function index()
+    {
+        // Haal alle auto's op uit de database
+        $cars = Car::all();
+
+        // Stuur ze naar de view (zorg dat dit bestand bestaat!)
+        return view('my-cars', compact('cars'));
+    }
+
     // A1: Stap 1 (Kenteken)
     public function createStepOne()
     {
@@ -44,22 +56,35 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $tempData = session('car_temp_data');
+        if (!$tempData) return redirect()->route('cars.create.one');
+
         $validated = $request->validate([
             'price' => 'required|numeric',
-            'brand' => 'required',
-            'model' => 'required'
+            'brand' => 'required|string',
+            'model' => 'required|string',
+            // Voeg deze toe voor A1 volledigheid:
+            'mileage' => 'nullable|integer',
+            'production_year' => 'nullable|integer',
+            'color' => 'nullable|string',
         ]);
 
         Car::create([
-            'user_id' => Auth::id(),
-            'license_plate' => $tempData['license_plate'],
-            'brand' => $validated['brand'],
-            'model' => $validated['model'],
-            'price' => $validated['price'],
+            'user_id'         => Auth::id(),
+            'license_plate'   => $tempData['license_plate'],
+            'brand'           => $validated['brand'],
+            'model'           => $validated['model'],
+            'price'           => $validated['price'],
+            // Vergeet deze niet, anders blijft je database leeg of geeft hij errors:
+            'mileage'         => $request->mileage,
+            'production_year' => $request->production_year,
+            'seats'           => $request->seats ?? 5, // Gebruik een fallback
+            'doors'           => $request->doors ?? 4,
         ]);
 
         session()->forget('car_temp_data');
-        return redirect()->route('cars.my')->with('success', 'Auto geplaatst!');
+
+        // Let op: controleer of je route echt 'cars.my' heet of 'cars.my-cars'
+        return redirect()->route('cars.my')->with('success', 'Auto succesvol geplaatst!');
     }
 
     // A3: Verwijderen
