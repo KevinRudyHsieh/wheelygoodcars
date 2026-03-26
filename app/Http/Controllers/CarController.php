@@ -51,7 +51,8 @@ class CarController extends Controller
         $kenteken = strtoupper(str_replace('-', '', $tempData['license_plate']));
 
         // B1: De echte RDW API aanroep
-        $response = Http::get("https://opendata.rdw.nl/resource/m9nd-m9wp.json?kenteken=" . $kenteken);
+        // Zoek naar de Http::get regel in je createStepTwo functie en vervang hem door deze:
+       $response = Http::get("https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=" . $kenteken);
 
         if ($response->successful() && count($response->json()) > 0) {
             $rdwData = $response->json()[0];
