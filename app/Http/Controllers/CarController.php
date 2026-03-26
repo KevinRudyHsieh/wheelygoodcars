@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Http;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +19,10 @@ class CarController extends Controller
      */
     public function index()
     {
-        // Haal alle auto's op uit de database
-        $cars = Car::all();
+        // Haal alle auto's op, maar zet de nieuwste (created_at) bovenaan (descending)
+        $cars = Car::orderBy('created_at', 'desc')->get();
 
-        // Stuur ze naar de view (zorg dat dit bestand bestaat!)
+        // Stuur ze naar de view
         return view('my-cars', compact('cars'));
     }
 
@@ -41,13 +41,30 @@ class CarController extends Controller
     }
 
     // A1: Stap 2 (Prijs & Check)
+
+
     public function createStepTwo()
     {
         $tempData = session('car_temp_data');
         if (!$tempData) return redirect()->route('cars.create.one');
 
-        // B1: Hier komt later de RDW API, voor nu mock data
-        $mockData = ['brand' => 'Volkswagen', 'model' => 'Golf'];
+        $kenteken = strtoupper(str_replace('-', '', $tempData['license_plate']));
+
+        // B1: De echte RDW API aanroep
+        $response = Http::get("https://opendata.rdw.nl/resource/m9nd-m9wp.json?kenteken=" . $kenteken);
+
+        if ($response->successful() && count($response->json()) > 0) {
+            $rdwData = $response->json()[0];
+            $mockData = [
+                'brand' => $rdwData['merk'],
+                'model' => $rdwData['handelsbenaming'],
+                'color' => $rdwData['eerste_kleur'] ?? 'Onbekend',
+                'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
+            ];
+        } else {
+            // Als het kenteken niet gevonden wordt
+            return redirect()->route('cars.create.one')->withErrors(['license_plate' => 'Kenteken niet gevonden bij de RDW.']);
+        }
 
         return view('createprice', compact('tempData', 'mockData'));
     }

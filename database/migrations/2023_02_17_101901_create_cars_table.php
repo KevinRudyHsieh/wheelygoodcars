@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('license_plate');
             $table->string('brand');
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->decimal('price');
             $table->integer('mileage')->nullable();
             $table->integer('seats')->default(5);
