@@ -22,8 +22,10 @@ class CarFactory extends Factory
             'mileage' => $this->faker->numberBetween(0, 300000), // Kilometerstand
             'seats'   => $this->faker->randomElement([2, 4, 5, 7]),   // Aantal stoelen
             'doors'   => $this->faker->randomElement([2, 3, 4, 5]),   // Aantal deuren
-            'year'    => $this->faker->numberBetween(2000, 2024),    // Bouwjaar
+            'production_year'    => $this->faker->numberBetween(2000, 2024),    // Bouwjaar
 
+            'weight'          => $this->faker->numberBetween(800, 2500),
+            'color'           => $this->faker->safeColorName(),
             // De koppeling met de User
             'user_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
         ];
