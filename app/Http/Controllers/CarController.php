@@ -10,8 +10,12 @@ class CarController extends Controller
     // A2: Overzicht (Mijn Auto's)
     public function myCars()
     {
-        $cars = Auth::user()->cars;
-        return view('mycars', compact('cars'));
+        $user = auth()->user();
+        // Haal alle auto's op, maar zet de nieuwste (created_at) bovenaan (descending)
+        $cars = auth()->user()->cars()->orderBy('created_at', 'desc')->get();
+
+        // Stuur ze naar de view
+        return view('my-cars', compact('cars'));
     }
 
     /**
@@ -23,8 +27,10 @@ class CarController extends Controller
         $cars = Car::orderBy('created_at', 'desc')->get();
 
         // Stuur ze naar de view
-        return view('my-cars', compact('cars'));
+        return view('index-cars', compact('cars'));
     }
+
+
 
     // A1: Stap 1 (Kenteken)
     public function createStepOne()
@@ -72,38 +78,38 @@ class CarController extends Controller
 
     // A1: Opslaan in Database
     public function store(Request $request)
-    {
-        $tempData = session('car_temp_data');
-        if (!$tempData) return redirect()->route('cars.create.one');
+{
+    $tempData = session('car_temp_data');
+    if (!$tempData) return redirect()->route('cars.create.one');
 
-        $validated = $request->validate([
-            'price' => 'required|numeric',
-            'brand' => 'required|string',
-            'model' => 'required|string',
-            // Voeg deze toe voor A1 volledigheid:
-            'mileage' => 'nullable|integer',
-            'production_year' => 'nullable|integer',
-            'color' => 'nullable|string',
-        ]);
+    // Valideer de binnenkomende data van het prijs-formulier
+    $validated = $request->validate([
+        'brand' => 'required|string',
+        'model' => 'required|string',
+        'price' => 'required|numeric',
+        'mileage' => 'nullable|numeric',
+        'production_year' => 'nullable|integer',
+        'color' => 'nullable|string',
+    ]);
 
-        Car::create([
-            'user_id'         => Auth::id(),
-            'license_plate'   => $tempData['license_plate'],
-            'brand'           => $validated['brand'],
-            'model'           => $validated['model'],
-            'price'           => $validated['price'],
-            // Vergeet deze niet, anders blijft je database leeg of geeft hij errors:
-            'mileage'         => $request->mileage,
-            'production_year' => $request->production_year,
-            'seats'           => $request->seats ?? 5, // Gebruik een fallback
-            'doors'           => $request->doors ?? 4,
-        ]);
+    // B1 & A1: Opslaan in de database
+    Car::create([
+        'user_id' => auth()->id() ?? 1, // Koppel aan ingelogde gebruiker (of ID 1 als test)
+        'license_plate' => $tempData['license_plate'],
+        'brand' => $validated['brand'],
+        'model' => $validated['model'],
+        'price' => $validated['price'],
+        'mileage' => $validated['mileage'] ?? 0,
+        'production_year' => $validated['production_year'] ?? date('Y'),
+        'color' => $validated['color'] ?? 'Onbekend',
+    ]);
 
-        session()->forget('car_temp_data');
+    // Sessie leegmaken na succes
+    session()->forget('car_temp_data');
 
-        // Let op: controleer of je route echt 'cars.my' heet of 'cars.my-cars'
-        return redirect()->route('cars.my')->with('success', 'Auto succesvol geplaatst!');
-    }
+    // Terug naar het overzicht met een succesmelding
+    return redirect()->route('cars.my-cars')->with('success', 'Auto succesvol te koop gezet!');
+}
 
     // A3: Verwijderen
     public function destroy(Car $car)
@@ -111,6 +117,6 @@ class CarController extends Controller
         if ($car->user_id === Auth::id()) {
             $car->delete();
         }
-        return redirect()->route('cars.my')->with('success', 'Verwijderd.');
+        return redirect()->route('cars.my-cars')->with('success', 'Verwijderd.');
     }
 }
