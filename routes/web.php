@@ -37,7 +37,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/dashboard/cars/create/step-one', [CarController::class, 'postStepOne'])->name('cars.create.one.post');
         Route::get('/dashboard/cars/create/step-two', [CarController::class, 'createStepTwo'])->name('cars.create.two');
         Route::post('/dashboard/cars/store', [CarController::class, 'store'])->name('cars.store');
-    Route::delete('/dashboard/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
+        Route::get('/dashboard/cars/{car}/pdf', [CarController::class, 'downloadPdf'])->name('cars.pdf');
+        Route::delete('/dashboard/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 });
 
 // -----------------------------

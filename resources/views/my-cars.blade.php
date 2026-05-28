@@ -33,8 +33,9 @@
                             <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-600">{{ $car->license_plate }}</td>
                             <td class="px-6 py-4">{{ $car->brand }} {{ $car->model }}</td>
                             <td class="px-6 py-4">€ {{ number_format($car->price, 2, ',', '.') }}</td>
-                            <td class="px-6 py-4 text-right">
-                                <form action="{{ route('cars.destroy', $car) }}" method="POST" onsubmit="return confirm('Weet je het zeker?')">
+                            <td class="px-6 py-4 text-right space-x-2">
+                                <a href="{{ route('cars.pdf', $car) }}" class="text-blue-600 hover:text-blue-900 font-semibold mr-4">PDF</a>
+                                <form action="{{ route('cars.destroy', $car) }}" method="POST" class="inline" onsubmit="return confirm('Weet je het zeker?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 font-semibold border-0 bg-transparent">Verwijderen</button>

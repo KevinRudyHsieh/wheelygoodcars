@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CarController extends Controller
 {
@@ -30,7 +31,22 @@ class CarController extends Controller
         return view('index-cars', compact('cars'));
     }
 
+    public function show(Car $car)
+    {
+        return view('cars.show', compact('car'));
+    }
 
+    public function downloadPdf(Car $car)
+    {
+        if ($car->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $pdf = Pdf::loadView('cars.pdf', compact('car'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('auto-'.$car->license_plate.'.pdf');
+    }
 
     // A1: Stap 1 (Kenteken)
     public function createStepOne()
