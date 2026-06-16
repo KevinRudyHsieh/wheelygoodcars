@@ -82,6 +82,7 @@ class CarController extends Controller
         if ($response->successful() && count($response->json()) > 0) {
             $rdwData = $response->json()[0];
             $fuelData = ($fuelResponse->successful() && count($fuelResponse->json()) > 0) ? $fuelResponse->json()[0] : [];
+
             $mockData = [
                 'brand' => $rdwData['merk'],
                 'model' => $rdwData['handelsbenaming'],
@@ -89,6 +90,7 @@ class CarController extends Controller
                 'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
                 'fuel_type' => $fuelData['brandstof_omschrijving'] ?? 'Niet beschikbaar',
             ];
+
         } else {
             // Als het kenteken niet gevonden wordt
             return redirect()->route('cars.create.one')->withErrors(['license_plate' => 'Kenteken niet gevonden bij de RDW.']);
@@ -111,6 +113,7 @@ class CarController extends Controller
         'mileage' => 'nullable|numeric',
         'production_year' => 'nullable|integer',
         'color' => 'nullable|string',
+        'fuel_type' => 'nullable|string',
     ]);
 
     // B1 & A1: Opslaan in de database
@@ -123,6 +126,7 @@ class CarController extends Controller
         'mileage' => $validated['mileage'] ?? 0,
         'production_year' => $validated['production_year'] ?? date('Y'),
         'color' => $validated['color'] ?? 'Onbekend',
+        'fuel_type' => $validated['fuel_type'] ?? 'Onbekend',
     ]);
 
     // Sessie leegmaken na succes

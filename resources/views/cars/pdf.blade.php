@@ -50,6 +50,10 @@
                 <td>{{ $car->color ?? 'Onbekend' }}</td>
             </tr>
             <tr>
+                <th>Brandstof</th>
+                <td>{{ $car->fuel_type ?? 'Onbekend' }}</td>
+            </tr>
+            <tr>
                 <th>Aangeboden door</th>
                 <td>{{ $car->user?->name ?? 'Onbekend' }}</td>
             </tr>
