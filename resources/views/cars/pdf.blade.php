@@ -58,6 +58,26 @@
                 <td>{{ $car->horsepower ?? 'Onbekend' }}</td>
             </tr>
             <tr>
+                <th>Catalogusprijs</th>
+                <td>{{ $car->catalogusprijs ? '€ ' . number_format($car->catalogusprijs, 2, ',', '.') : 'Onbekend' }}</td>
+            </tr>
+            <tr>
+                <th>APK vervalt</th>
+                <td>{{ $car->vervaldatum_apk ?? 'Onbekend' }}</td>
+            </tr>
+            <tr>
+                <th>Aantal wielen</th>
+                <td>{{ $car->aantal_wielen ?? 'Onbekend' }}</td>
+            </tr>
+            <tr>
+                <th>Motor</th>
+                <td>{{ ($car->aantal_cilinders ?? 'Onbekend') }} cyl × {{ ($car->cilinderinhoud ?? 'Onbekend') }} cc</td>
+            </tr>
+            <tr>
+                <th>Gewicht (kg)</th>
+                <td>Leeg: {{ $car->massa_ledig_voertuig ?? 'Onbekend' }} / Rijklaar: {{ $car->massa_rijklaar ?? 'Onbekend' }}</td>
+            </tr>
+            <tr>
                 <th>Aangeboden door</th>
                 <td>{{ $car->user?->name ?? 'Onbekend' }}</td>
             </tr>

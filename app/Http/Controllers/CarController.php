@@ -97,8 +97,14 @@ class CarController extends Controller
                 'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
                 'fuel_type' => $fuelLabel,
                 'horsepower' => $fuelData['nettomaximumvermogen'] ?? 'Onbekend',
+                'catalogusprijs' => $rdwData['catalogusprijs'] ?? null,
+                'vervaldatum_apk' => $rdwData['vervaldatum_apk_dt'] ?? $rdwData['vervaldatum_apk'] ?? null,
+                'aantal_wielen' => $rdwData['aantal_wielen'] ?? null,
+                'aantal_cilinders' => $rdwData['aantal_cilinders'] ?? null,
+                'cilinderinhoud' => $rdwData['cilinderinhoud'] ?? null,
+                'massa_ledig_voertuig' => $rdwData['massa_ledig_voertuig'] ?? null,
+                'massa_rijklaar' => $rdwData['massa_rijklaar'] ?? null,
             ];
-
         } else {
             // Als het kenteken niet gevonden wordt
             return redirect()->route('cars.create.one')->withErrors(['license_plate' => 'Kenteken niet gevonden bij de RDW.']);
@@ -123,6 +129,13 @@ class CarController extends Controller
         'color' => 'nullable|string',
         'fuel_type' => 'nullable|string',
         'horsepower' => 'nullable|numeric',
+        'catalogusprijs' => 'nullable|numeric',
+        'vervaldatum_apk' => 'nullable|string',
+        'aantal_wielen' => 'nullable|integer',
+        'aantal_cilinders' => 'nullable|integer',
+        'cilinderinhoud' => 'nullable|integer',
+        'massa_ledig_voertuig' => 'nullable|integer',
+        'massa_rijklaar' => 'nullable|integer',
     ]);
 
     // B1 & A1: Opslaan in de database
@@ -137,6 +150,13 @@ class CarController extends Controller
         'color' => $validated['color'] ?? 'Onbekend',
         'fuel_type' => $validated['fuel_type'] ?? 'Onbekend',
         'horsepower' => $validated['horsepower'] ?? null,
+        'catalogusprijs' => $validated['catalogusprijs'] ?? null,
+        'vervaldatum_apk' => $validated['vervaldatum_apk'] ?? null,
+        'aantal_wielen' => $validated['aantal_wielen'] ?? null,
+        'aantal_cilinders' => $validated['aantal_cilinders'] ?? null,
+        'cilinderinhoud' => $validated['cilinderinhoud'] ?? null,
+        'massa_ledig_voertuig' => $validated['massa_ledig_voertuig'] ?? null,
+        'massa_rijklaar' => $validated['massa_rijklaar'] ?? null,
     ]);
 
     // Sessie leegmaken na succes

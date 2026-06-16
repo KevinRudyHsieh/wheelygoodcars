@@ -16,6 +16,11 @@
                         <p><strong>Model:</strong> {{ $mockData['model'] }}</p>
                         <p><strong>Brandstof:</strong> {{ $mockData['fuel_type'] }}</p>
                         <p><strong>Vermogen:</strong> {{ $mockData['horsepower'] }} kW</p>
+                        <p><strong>Catalogusprijs:</strong> € {{ number_format($mockData['catalogusprijs'] ?? 0, 2, ',', '.') }}</p>
+                        <p><strong>APK vervalt:</strong> {{ $mockData['vervaldatum_apk'] ?? 'Onbekend' }}</p>
+                        <p><strong>Aantal wielen:</strong> {{ $mockData['aantal_wielen'] ?? 'Onbekend' }}</p>
+                        <p><strong>Motor:</strong> {{ $mockData['aantal_cilinders'] ?? 'Onbekend' }} cyl × {{ $mockData['cilinderinhoud'] ?? 'Onbekend' }} cc</p>
+                        <p><strong>Leeg gewicht / rijklaar:</strong> {{ $mockData['massa_ledig_voertuig'] ?? 'Onbekend' }} kg / {{ $mockData['massa_rijklaar'] ?? 'Onbekend' }} kg</p>
 
                         <input type="hidden" name="brand" value="{{ $mockData['brand'] }}">
                         <input type="hidden" name="model" value="{{ $mockData['model'] }}">
@@ -23,6 +28,13 @@
                         <input type="hidden" name="color" value="{{ $mockData['color'] }}">
                         <input type="hidden" name="fuel_type" value="{{ $mockData['fuel_type'] }}">
                         <input type="hidden" name="horsepower" value="{{ $mockData['horsepower'] }}">
+                        <input type="hidden" name="catalogusprijs" value="{{ $mockData['catalogusprijs'] }}">
+                        <input type="hidden" name="vervaldatum_apk" value="{{ $mockData['vervaldatum_apk'] }}">
+                        <input type="hidden" name="aantal_wielen" value="{{ $mockData['aantal_wielen'] }}">
+                        <input type="hidden" name="aantal_cilinders" value="{{ $mockData['aantal_cilinders'] }}">
+                        <input type="hidden" name="cilinderinhoud" value="{{ $mockData['cilinderinhoud'] }}">
+                        <input type="hidden" name="massa_ledig_voertuig" value="{{ $mockData['massa_ledig_voertuig'] }}">
+                        <input type="hidden" name="massa_rijklaar" value="{{ $mockData['massa_rijklaar'] }}">
                     </div>
 
                     <div class="col-md-6">
