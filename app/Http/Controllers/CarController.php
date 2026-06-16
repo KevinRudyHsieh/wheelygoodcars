@@ -86,9 +86,23 @@ class CarController extends Controller
             $brandstof = $fuelData['brandstof_omschrijving'] ?? 'Niet beschikbaar';
             $hybridClass = trim($fuelData['klasse_hybride_elektrisch_voertuig'] ?? '');
             $isHybrid = $hybridClass !== '';
+            $isElectric = stripos($brandstof, 'elektr') !== false;
+
             $fuelLabel = $isHybrid
                 ? 'Hybride (' . $brandstof . ' + Elektriciteit)'
                 : $brandstof;
+
+            // Determine horsepower based on fuel type
+            $horsepower = null;
+            if (!empty($fuelData['netto_max_vermogen_elektrisch'])) {
+                // For electric vehicles
+                $horsepower = $fuelData['netto_max_vermogen_elektrisch'];
+            } elseif (!empty($fuelData['nettomaximumvermogen'])) {
+                // For fuel vehicles
+                $horsepower = $fuelData['nettomaximumvermogen'];
+            } else {
+                $horsepower = null;
+            }
 
             $mockData = [
                 'brand' => $rdwData['merk'],
@@ -96,12 +110,14 @@ class CarController extends Controller
                 'color' => $rdwData['eerste_kleur'] ?? 'Onbekend',
                 'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
                 'fuel_type' => $fuelLabel,
-                'horsepower' => $fuelData['nettomaximumvermogen'] ?? 'Onbekend',
+                'horsepower' => $horsepower,
                 'catalogusprijs' => $rdwData['catalogusprijs'] ?? null,
-                'vervaldatum_apk' => $rdwData['vervaldatum_apk_dt'] ?? $rdwData['vervaldatum_apk'] ?? null,
+                'vervaldatum_apk' => !empty($rdwData['vervaldatum_apk'])
+    ? \Carbon\Carbon::parse($rdwData['vervaldatum_apk'])->format('d-m-Y')
+    : 'Onbekend',
                 'aantal_wielen' => $rdwData['aantal_wielen'] ?? null,
-                'aantal_cilinders' => $rdwData['aantal_cilinders'] ?? null,
-                'cilinderinhoud' => $rdwData['cilinderinhoud'] ?? null,
+                'aantal_cilinders' => $isElectric ? null : ($rdwData['aantal_cilinders'] ?? null),
+                'cilinderinhoud' => $isElectric ? null : ($rdwData['cilinderinhoud'] ?? null),
                 'massa_ledig_voertuig' => $rdwData['massa_ledig_voertuig'] ?? null,
                 'massa_rijklaar' => $rdwData['massa_rijklaar'] ?? null,
             ];

@@ -69,10 +69,12 @@
                 <th>Aantal wielen</th>
                 <td>{{ $car->aantal_wielen ?? 'Onbekend' }}</td>
             </tr>
+            @if($car->aantal_cilinders && $car->cilinderinhoud)
             <tr>
                 <th>Motor</th>
-                <td>{{ ($car->aantal_cilinders ?? 'Onbekend') }} cyl × {{ ($car->cilinderinhoud ?? 'Onbekend') }} cc</td>
+                <td>{{ $car->aantal_cilinders }} cyl × {{ $car->cilinderinhoud }} cc</td>
             </tr>
+            @endif
             <tr>
                 <th>Gewicht (kg)</th>
                 <td>Leeg: {{ $car->massa_ledig_voertuig ?? 'Onbekend' }} / Rijklaar: {{ $car->massa_rijklaar ?? 'Onbekend' }}</td>

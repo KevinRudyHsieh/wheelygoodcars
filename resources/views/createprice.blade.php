@@ -16,10 +16,12 @@
                         <p><strong>Model:</strong> {{ $mockData['model'] }}</p>
                         <p><strong>Brandstof:</strong> {{ $mockData['fuel_type'] }}</p>
                         <p><strong>Vermogen:</strong> {{ $mockData['horsepower'] }} kW</p>
+                        @if($mockData['aantal_cilinders'] && $mockData['cilinderinhoud'])
+                        <p><strong>Motor:</strong> {{ $mockData['aantal_cilinders'] }} cyl × {{ $mockData['cilinderinhoud'] }} cc</p>
+                        @endif
                         <p><strong>Catalogusprijs:</strong> € {{ number_format($mockData['catalogusprijs'] ?? 0, 2, ',', '.') }}</p>
                         <p><strong>APK vervalt:</strong> {{ $mockData['vervaldatum_apk'] ?? 'Onbekend' }}</p>
                         <p><strong>Aantal wielen:</strong> {{ $mockData['aantal_wielen'] ?? 'Onbekend' }}</p>
-                        <p><strong>Motor:</strong> {{ $mockData['aantal_cilinders'] ?? 'Onbekend' }} cyl × {{ $mockData['cilinderinhoud'] ?? 'Onbekend' }} cc</p>
                         <p><strong>Leeg gewicht / rijklaar:</strong> {{ $mockData['massa_ledig_voertuig'] ?? 'Onbekend' }} kg / {{ $mockData['massa_rijklaar'] ?? 'Onbekend' }} kg</p>
 
                         <input type="hidden" name="brand" value="{{ $mockData['brand'] }}">
