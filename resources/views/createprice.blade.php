@@ -15,12 +15,14 @@
                         <p><strong>Merk:</strong> {{ $mockData['brand'] }}</p>
                         <p><strong>Model:</strong> {{ $mockData['model'] }}</p>
                         <p><strong>Brandstof:</strong> {{ $mockData['fuel_type'] }}</p>
+                        <p><strong>Vermogen:</strong> {{ $mockData['horsepower'] }} kW</p>
 
                         <input type="hidden" name="brand" value="{{ $mockData['brand'] }}">
                         <input type="hidden" name="model" value="{{ $mockData['model'] }}">
                         <input type="hidden" name="production_year" value="{{ $mockData['production_year'] }}">
                         <input type="hidden" name="color" value="{{ $mockData['color'] }}">
                         <input type="hidden" name="fuel_type" value="{{ $mockData['fuel_type'] }}">
+                        <input type="hidden" name="horsepower" value="{{ $mockData['horsepower'] }}">
                     </div>
 
                     <div class="col-md-6">

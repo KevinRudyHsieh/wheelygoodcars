@@ -21,6 +21,7 @@ class Car extends Model
         'weight',
         'color',
         'fuel_type',
+        'horsepower',
         'image',
         'sold_at',
         'views',

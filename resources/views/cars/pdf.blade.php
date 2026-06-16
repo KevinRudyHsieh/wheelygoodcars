@@ -54,6 +54,10 @@
                 <td>{{ $car->fuel_type ?? 'Onbekend' }}</td>
             </tr>
             <tr>
+                <th>Vermogen (kW)</th>
+                <td>{{ $car->horsepower ?? 'Onbekend' }}</td>
+            </tr>
+            <tr>
                 <th>Aangeboden door</th>
                 <td>{{ $car->user?->name ?? 'Onbekend' }}</td>
             </tr>

@@ -83,12 +83,20 @@ class CarController extends Controller
             $rdwData = $response->json()[0];
             $fuelData = ($fuelResponse->successful() && count($fuelResponse->json()) > 0) ? $fuelResponse->json()[0] : [];
 
+            $brandstof = $fuelData['brandstof_omschrijving'] ?? 'Niet beschikbaar';
+            $hybridClass = trim($fuelData['klasse_hybride_elektrisch_voertuig'] ?? '');
+            $isHybrid = $hybridClass !== '';
+            $fuelLabel = $isHybrid
+                ? 'Hybride (' . $brandstof . ' + Elektriciteit)'
+                : $brandstof;
+
             $mockData = [
                 'brand' => $rdwData['merk'],
                 'model' => $rdwData['handelsbenaming'],
                 'color' => $rdwData['eerste_kleur'] ?? 'Onbekend',
                 'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
-                'fuel_type' => $fuelData['brandstof_omschrijving'] ?? 'Niet beschikbaar',
+                'fuel_type' => $fuelLabel,
+                'horsepower' => $fuelData['nettomaximumvermogen'] ?? 'Onbekend',
             ];
 
         } else {
@@ -114,6 +122,7 @@ class CarController extends Controller
         'production_year' => 'nullable|integer',
         'color' => 'nullable|string',
         'fuel_type' => 'nullable|string',
+        'horsepower' => 'nullable|numeric',
     ]);
 
     // B1 & A1: Opslaan in de database
@@ -127,6 +136,7 @@ class CarController extends Controller
         'production_year' => $validated['production_year'] ?? date('Y'),
         'color' => $validated['color'] ?? 'Onbekend',
         'fuel_type' => $validated['fuel_type'] ?? 'Onbekend',
+        'horsepower' => $validated['horsepower'] ?? null,
     ]);
 
     // Sessie leegmaken na succes
