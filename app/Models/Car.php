@@ -20,6 +20,7 @@ class Car extends Model
         'production_year',
         'weight',
         'color',
+        'fuel_type',
         'image',
         'sold_at',
         'views',

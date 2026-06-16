@@ -76,13 +76,18 @@ class CarController extends Controller
         // Zoek naar de Http::get regel in je createStepTwo functie en vervang hem door deze:
        $response = Http::get("https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=" . $kenteken);
 
+        // 2. Brandstofgegevens ophalen (nieuwe API)
+        $fuelResponse = Http::get("https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=" . $kenteken);
+
         if ($response->successful() && count($response->json()) > 0) {
             $rdwData = $response->json()[0];
+            $fuelData = ($fuelResponse->successful() && count($fuelResponse->json()) > 0) ? $fuelResponse->json()[0] : [];
             $mockData = [
                 'brand' => $rdwData['merk'],
                 'model' => $rdwData['handelsbenaming'],
                 'color' => $rdwData['eerste_kleur'] ?? 'Onbekend',
                 'production_year' => substr($rdwData['datum_eerste_toelating'], 0, 4),
+                'fuel_type' => $fuelData['brandstof_omschrijving'] ?? 'Niet beschikbaar',
             ];
         } else {
             // Als het kenteken niet gevonden wordt
