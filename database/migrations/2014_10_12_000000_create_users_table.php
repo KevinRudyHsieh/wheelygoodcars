@@ -29,4 +29,10 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
+
+        public function isAdmin()
+    {
+        // Hier checken we of het e-mailadres overeenkomt met je admin-account
+        return $this->email === 'admin@local.test';
+    }
 };

@@ -135,7 +135,7 @@ class CarController extends Controller
 
     // A1: Opslaan in Database
     public function store(Request $request)
-{
+    {
     $tempData = session('car_temp_data');
     if (!$tempData) return redirect()->route('cars.create.one');
 
@@ -160,7 +160,7 @@ class CarController extends Controller
 
     // B1 & A1: Opslaan in de database
     Car::create([
-        'user_id' => auth()->id() ?? 1, // Koppel aan ingelogde gebruiker (of ID 1 als test)
+        'user_id' => auth()->id(), // Koppel aan ingelogde gebruiker (of ID 1 als test)
         'license_plate' => $tempData['license_plate'],
         'brand' => $validated['brand'],
         'model' => $validated['model'],
@@ -184,7 +184,7 @@ class CarController extends Controller
 
     // Terug naar het overzicht met een succesmelding
     return redirect()->route('cars.my-cars')->with('success', 'Auto succesvol te koop gezet!');
-}
+    }
 
     // A3: Verwijderen
     public function destroy(Car $car)

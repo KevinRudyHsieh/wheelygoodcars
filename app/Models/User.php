@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Car::class);
     }
+        public function isAdmin()
+    {
+        // Hier checken we of het e-mailadres overeenkomt met je admin-account
+        return $this->email === 'admin@local.test';
+    }
 }

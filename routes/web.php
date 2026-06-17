@@ -50,4 +50,5 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/aanbieders-check', [AdminController::class, 'index'])->name('admin.aanbieders');
+    Route::get('/admin/dashboard-b6', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });

@@ -27,4 +27,14 @@ class AdminController extends Controller
 
         return view('admin.aanbieders-check', compact('missingPhone', 'tooCheapCars', 'noTagsUsed'));
     }
+    public function dashboard()
+    {
+        // Hier verzamelen we de data
+        $data = [
+            'total_cars' => \App\Models\Car::count(),
+            'total_users' => \App\Models\User::count(),
+        ];
+
+        return view('admin.dashboard-b6', compact('data'));
+    }
 }
