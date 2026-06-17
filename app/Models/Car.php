@@ -31,7 +31,7 @@ class Car extends Model
         'cilinderinhoud',
         'massa_ledig_voertuig',
         'massa_rijklaar',
-        'image',
+        'image_path',
         'sold_at',
         'views',
     ];

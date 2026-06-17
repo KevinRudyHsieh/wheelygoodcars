@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('production_year')->nullable();
             $table->integer('weight')->nullable();
             $table->string('color')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamp('sold_at')->nullable();
             $table->integer('views')->default(0);
             $table->timestamps();

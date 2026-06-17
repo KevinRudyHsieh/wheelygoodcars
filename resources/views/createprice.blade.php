@@ -7,7 +7,7 @@
             <h4>Stap 2: Gegevens controleren & Prijs instellen</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('cars.store') }}" method="POST">
+            <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -47,6 +47,10 @@
                         <div class="mb-3">
                             <label class="form-label">Kilometerstand</label>
                             <input type="number" name="mileage" class="form-control" placeholder="Bijv. 85000">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto van de auto (optioneel):</label>
+                            <input type="file" name="car_image" class="form-control" accept="image/*">
                         </div>
                     </div>
                 </div>

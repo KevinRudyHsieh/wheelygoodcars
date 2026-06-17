@@ -67,8 +67,6 @@ class CarController extends Controller
     }
 
     // A1: Stap 2 (Prijs & Check)
-
-
     public function createStepTwo()
     {
         $tempData = session('car_temp_data');
@@ -156,8 +154,14 @@ class CarController extends Controller
         'cilinderinhoud' => 'nullable|integer',
         'massa_ledig_voertuig' => 'nullable|integer',
         'massa_rijklaar' => 'nullable|integer',
+        'car_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
+    // 2. Sla de foto op en onthoud het pad
+    $imagePath = null;
+    if ($request->hasFile('car_image')) {
+        $imagePath = $request->file('car_image')->store('cars', 'public');
+    }
     // B1 & A1: Opslaan in de database
     Car::create([
         'user_id' => auth()->id(), // Koppel aan ingelogde gebruiker (of ID 1 als test)
@@ -177,6 +181,7 @@ class CarController extends Controller
         'cilinderinhoud' => $validated['cilinderinhoud'] ?? null,
         'massa_ledig_voertuig' => $validated['massa_ledig_voertuig'] ?? null,
         'massa_rijklaar' => $validated['massa_rijklaar'] ?? null,
+        'image_path' => $imagePath,
     ]);
 
     // Sessie leegmaken na succes
