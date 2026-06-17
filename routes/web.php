@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TagController;
-
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -48,3 +48,6 @@ Route::middleware('auth')->group(function () {
 // -----------------------------
 require __DIR__.'/auth.php';
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/aanbieders-check', [AdminController::class, 'index'])->name('admin.aanbieders');
+});

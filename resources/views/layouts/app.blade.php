@@ -19,6 +19,11 @@
                             @auth
                                 <li class="nav-item"><a class="nav-link text-light" href="">Mijn aanbod</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="">Aanbod plaatsen</a></li>
+                                @if(auth()->user()->is_admin)
+                                    <li class="nav-item">
+                                        <a class="nav-link text-warning" href="{{ route('admin.aanbieders') }}">Beheer Panel</a>
+                                    </li>
+                                @endif
                             @endauth
                         </li>
                     </ul>
