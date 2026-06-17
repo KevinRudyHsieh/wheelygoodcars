@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
          */
     public function run(): void
     {
+        // 1. Zorg dat je admin er ALTIJD is
+        User::updateOrCreate(
+        ['email' => 'admin@local.test'],
+        [
+            'name' => 'Admin',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'), // Gebruik een wachtwoord dat je onthoudt
+        ]
+    );
         // Eerst users maken (BELANGRIJK)
         User::factory(10)->create();
 
