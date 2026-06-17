@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
         // Eerst users maken (BELANGRIJK)
         User::factory(10)->create();
 
+        // 2. Maak hier de 20 tags aan
+        $tags = ['Nieuw', 'Zuinig', 'Sportief', 'Elektrisch', 'Luxe', 'Occasion', 'Actie', 'Gezinsauto', 'Automaat', 'Handgeschakeld', 'Rookvrij', 'Dealeronderhouden', 'Inruil', '4x4', 'Turbo', 'Cabrio', 'SUV', 'Station', 'Compact', 'Hybride'];
+
+        foreach ($tags as $name) {
+            \App\Models\Tag::create(['name' => $name]);
+        }
         // Daarna cars
         $this->call([
             CarSeeder::class,

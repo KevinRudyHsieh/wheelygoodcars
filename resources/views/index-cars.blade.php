@@ -11,11 +11,18 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border">
 
-                <div class="flex justify-between mb-6">
-                    <h3 class="text-lg font-medium text-gray-900">Voorraad Beheer</h3>
-                    <a href="{{ route('cars.create.one') }}" class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        + Auto Toevoegen
-                    </a>
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Voorraad Beheer</h3>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <a href="{{ route('tags.index') }}" class="btn bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                            📊 Tag Overzicht
+                        </a>
+                        <a href="{{ route('cars.create.one') }}" class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            + Auto Toevoegen
+                        </a>
+                    </div>
                 </div>
 
                 <table class="table table-striped min-w-full divide-y divide-gray-200">
@@ -24,6 +31,8 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kenteken</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Merk & Model</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prijs</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">aanbieder</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tags</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acties</th>
                         </tr>
                     </thead>
@@ -33,6 +42,24 @@
                             <td class="px-6 py-4 whitespace-nowrap font-bold text-blue-600">{{ $car->license_plate }}</td>
                             <td class="px-6 py-4">{{ $car->brand }} {{ $car->model }}</td>
                             <td class="px-6 py-4">€ {{ number_format($car->price, 2, ',', '.') }}</td>
+                            <td class="px-6 py-4">{{ $car->user?->name ?? 'Onbekend' }}</td> {{-- VOEG TOE --}}
+                            <td class="px-6 py-4">
+                                @foreach($car->tags as $tag)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                {{-- Hier komen straks je knoppen voor PDF/Verwijderen --}}
+                            </td>
+                            <td class="px-6 py-4">
+                                @if($car->sold_at)
+                                    <span class="text-red-500 font-bold">Verkocht</span>
+                                @else
+                                    <span class="text-green-500 font-bold">In Voorraad</span>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

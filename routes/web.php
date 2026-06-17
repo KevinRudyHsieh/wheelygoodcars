@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\TagController;
 
 
 
@@ -21,6 +22,7 @@ use App\Http\Controllers\CarController;
 // Dit adres toont de 250+ auto's (De Marktplaats)
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
+Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
 
 // Dit adres toont alleen JOUW eigen auto's (De Garage)
 Route::get('/my-cars', [CarController::class, 'myCars'])->name('cars.my-cars')->middleware('auth');

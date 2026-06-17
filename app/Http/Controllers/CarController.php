@@ -25,10 +25,14 @@ class CarController extends Controller
     public function index()
     {
         // Haal alle auto's op, maar zet de nieuwste (created_at) bovenaan (descending)
-        $cars = Car::orderBy('created_at', 'desc')->get();
-
+        $cars = Car::with(['tags', 'user'])->orderBy('created_at', 'desc')->get();
+        // 2. De B4 teller logica
+        $tagsWithStats = \App\Models\Tag::withCount([
+            'cars as total_stock' => fn($q) => $q->whereNull('sold_at'),
+            'cars as total_sold' => fn($q) => $q->whereNotNull('sold_at')
+        ])->get();
         // Stuur ze naar de view
-        return view('index-cars', compact('cars'));
+        return view('index-cars', compact('cars', 'tagsWithStats'));
     }
 
     public function show(Car $car)
