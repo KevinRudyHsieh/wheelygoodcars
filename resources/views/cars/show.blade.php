@@ -18,6 +18,15 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
+                      @if($car->image_path)
+                        <img src="{{ asset('storage/' . $car->image_path) }}"
+                            alt="Foto van {{ $car->brand }}"
+                            style="max-width: 400px; height: auto; display: block; margin-bottom: 20px;">
+                        @else
+                            <p>Geen foto beschikbaar</p>
+                        @endif
+                    </div>
+                    <div>
                         <p><strong>Prijs:</strong> € {{ number_format($car->price, 2, ',', '.') }}</p>
                         <p><strong>Kilometerstand:</strong> {{ $car->mileage ? number_format($car->mileage, 0, ',', '.') . ' km' : 'Onbekend' }}</p>
                         <p><strong>Bouwjaar:</strong> {{ $car->production_year ?? 'Onbekend' }}</p>
