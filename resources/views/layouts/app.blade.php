@@ -19,7 +19,7 @@
                             @auth
                                 <li class="nav-item"><a class="nav-link text-light" href="{{ route('cars.my') }}">Mijn aanbod</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="">Aanbod plaatsen</a></li>
-                                @if(auth()->user()->is_admin)
+                                @if(auth()->user()->isAdmin())
                                     <li class="nav-item">
                                         <a class="nav-link text-warning" href="{{ route('admin.aanbieders') }}">Beheer Panel</a>
                                     </li>

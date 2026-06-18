@@ -10,11 +10,11 @@ class IsAdmin
 {
     public function handle(Request $request, Closure $next)
     {
-        // Check of de gebruiker is ingelogd én de admin-status heeft
-        if (auth()->check() && auth()->user()->is_admin == 1) {
+        // Hier roepen we je nieuwe isAdmin() functie uit het User model aan
+        if (auth()->check() && auth()->user()->isAdmin()) {
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'Je hebt geen toegang tot deze pagina.');
+        return redirect('/')->with('error', 'Geen toegang.');
     }
 }
